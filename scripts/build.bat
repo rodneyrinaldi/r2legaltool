@@ -1,2 +1,1 @@
-@echo off
-r2Officepause
+pyinstaller --onefile --windowed seu_script.py

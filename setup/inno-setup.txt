@@ -1,0 +1,12 @@
+[Setup]
+AppName=Minha Aplicação Tkinter
+AppVersion=1.0
+DefaultDirName={pf}\MinhaAplicacaoTkinter
+DefaultGroupName=Minha Aplicação Tkinter
+OutputDir=.
+
+[Files]
+Source: "dist\seu_script.exe"; DestDir: "{app}"; Flags: ignoreversion
+
+[Icons]
+Name: "{group}\Minha Aplicação Tkinter"; Filename: "{app}\seu_script.exe"

@@ -8,7 +8,6 @@ from utils.helpers import CreateNewName
 
 def RegisterFile(secure_key,input_filename):
     output_filename = CreateNewName(input_filename,"(reg)")
-    print(output_filename)
     input_file = pymupdf.open(input_filename)   
     
     for pagina in input_file:

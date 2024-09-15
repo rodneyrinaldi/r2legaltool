@@ -15,7 +15,7 @@ class MainForm:
     def __init__(self, root):
         self.root = root
         self.control_name = None
-        self.root.title("R2 Legal Office")
+        self.root.title("R2 Legal Tool")
         self.root.geometry("800x600")
         self.root.configure(bg="white")
 
