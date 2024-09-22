@@ -12,8 +12,8 @@ class Folders:
         logo_icon = LoadIcon("app/gui/icons/logo.png")
         self.root.iconphoto(False, logo_icon)
         
-        self.selected_files = []
-        self.last_folder = self.load_last_folder()
+        # self.selected_files = []
+        # self.last_folder = self.load_last_folder()
 
         # Barra de ferramentas
         self.toolbar = tk.Frame(self.root, bg="lightgray")
@@ -115,17 +115,17 @@ class Folders:
         file_sizes = [f"{os.path.basename(file)}: {os.path.getsize(file)} bytes" for file in self.selected_files]
         messagebox.showinfo("Tamanhos dos Arquivos", "\n".join(file_sizes))
 
-    def load_last_folder(self):
+    # def load_last_folder(self):
         # """Carrega o nome da última pasta explorada do arquivo config.json."""
         # if os.path.exists(self.CONFIG_FILE):
         #     with open(self.CONFIG_FILE, "r") as f:
         #         config = json.load(f)
         #         return config.get("last_folder", None)
-        return None
+        # return None
 
-    def save_last_folder(self, folder_path):
-        with open(self.CONFIG_FILE, "w") as f:
-            json.dump({"last_folder": folder_path}, f)
+    # def save_last_folder(self, folder_path):
+    #     with open(self.CONFIG_FILE, "w") as f:
+    #         json.dump({"last_folder": folder_path}, f)
 
 
 

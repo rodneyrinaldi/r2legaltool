@@ -31,11 +31,15 @@ class TagFile:
         self.label.grid(row=3, column=0, padx=10, pady=10)        
         self.text_title = ttk.Entry(self.frame,width=50)
         self.text_title.grid(row=4, column=0, sticky="ew", padx=5, pady=5)
+        self.text_title.delete(0, tk.END)
+        self.text_title.insert(0, "Documento 9, Anexo 9.99.99")
         
         self.label = ttk.Label(self.frame, text="Descrição da etiqueta:")
         self.label.grid(row=5, column=0, padx=10, pady=10)        
         self.text_description = ttk.Entry(self.frame,width=50)
         self.text_description.grid(row=6, column=0, sticky="ew", padx=5, pady=5)
+        self.text_description.delete(0, tk.END)
+        self.text_description.insert(0, "Cópia de ...")
           
         self.confirm_button = tk.Button(self.root, width=20, text="Processar", command=self.process_file)
         self.confirm_button.pack(pady=5)

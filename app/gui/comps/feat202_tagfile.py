@@ -8,11 +8,14 @@ from PyPDF2 import PdfReader, PdfWriter
 from utils.helpers import CreateNewName
 
 
-def LabelerFile(title,description,input_filename):
+def LabelerFile(title,description,input_filename,gray=True):
     current_directory = os.path.dirname(os.path.abspath(__file__))
 
     output_filename = CreateNewName(input_filename,"(etiq)")
-    label_filename =  pymupdf.open(current_directory + "\\label1.pdf")  
+    if gray:
+        label_filename =  pymupdf.open(current_directory + "\\label1.pdf")  
+    else:
+        label_filename =  pymupdf.open(current_directory + "\\label2.pdf")  
 
     output_file = pymupdf.open(label_filename)
     for pagina in output_file:

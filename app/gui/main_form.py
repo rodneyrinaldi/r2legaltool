@@ -7,6 +7,7 @@ from gui.forms.child102_folders import Folders
 from gui.forms.child201_regfile import RegFile
 from gui.forms.child202_tagfile import TagFile
 from gui.forms.child203_lockfile import LockFile
+from gui.forms.child204_oabtable import OabTable
 from gui.forms.child301_signfile import SignFile
 
 from utils.helpers import LoadIcon
@@ -58,7 +59,7 @@ class MainForm:
         functions_menu.add_command(label="Etiquetador de documentos", command=self.open_child202_tagfile)
         functions_menu.add_command(label="Protetor de documentos", command=self.open_child203_lockfile)
         functions_menu.add_separator()
-        functions_menu.add_command(label="Consultor de honorários OABSP", command=self.open_child000_empty,state="disabled")
+        functions_menu.add_command(label="Consultor de honorários OABSP", command=self.open_child204_oabtable,state="normal")
         functions_menu.add_separator()
         functions_menu.add_command(label="Consultor de instabilidade TJSP", command=self.open_child000_empty,state="disabled")
         functions_menu.add_command(label="Consultor de processos TJSP", command=self.open_child000_empty,state="disabled")
@@ -116,6 +117,14 @@ class MainForm:
 
 
     def open_child203_lockfile(self):
+        self.root.attributes("-disabled", True)
+        new_window = tk.Toplevel(self.mdi_area)
+        self.center_child_window(new_window, 720,400)
+        new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
+        LockFile(new_window)
+
+
+    def open_child204_oabtable(self):
         self.root.attributes("-disabled", True)
         new_window = tk.Toplevel(self.mdi_area)
         self.center_child_window(new_window, 720,400)
