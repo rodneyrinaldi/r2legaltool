@@ -5,7 +5,7 @@ from tkinter import filedialog
 import pymupdf
 from PyPDF2 import PdfReader, PdfWriter
 
-from utils.helpers import CreateNewName
+from app.utils.helpers import CreateNewName
 
 
 def LabelerFile(title,description,input_filename,gray=True):

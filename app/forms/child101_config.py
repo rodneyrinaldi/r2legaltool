@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
 
-from utils.helpers import LoadIcon
+from app.utils.helpers import LoadIcon
 # from gui.comps.feat202_tagfile import LabelerFile
 
 
@@ -11,7 +11,7 @@ class Config:
     def __init__(self, root):
         self.root = root
         self.root.title("Registro de documentos")
-        logo_icon = LoadIcon("app/gui/icons/logo.png")
+        logo_icon = LoadIcon("app/images/logo.png")
         self.root.iconphoto(False, logo_icon)
         
         self.root.columnconfigure(0, weight=1)

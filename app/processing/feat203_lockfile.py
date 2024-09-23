@@ -7,7 +7,7 @@ from tkinter import  filedialog
 import pymupdf
 from PyPDF2 import PdfReader, PdfWriter
 
-from utils.helpers import CreateNewName
+from app.utils.helpers import CreateNewName
 
 
 def LockerFile(input_filename,u_password,o_password):

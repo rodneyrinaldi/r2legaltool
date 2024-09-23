@@ -1,16 +1,16 @@
 import tkinter as tk
 from tkinter import Menu
 
-from gui.forms.child000_empty import Empty 
-from gui.forms.child101_config import Config 
-from gui.forms.child102_folders import Folders
-from gui.forms.child201_regfile import RegFile
-from gui.forms.child202_tagfile import TagFile
-from gui.forms.child203_lockfile import LockFile
-from gui.forms.child204_oabtable import OabTable
-from gui.forms.child301_signfile import SignFile
+from app.forms.child000_empty import Empty
+from app.forms.child101_config import Config 
+from app.forms.child102_folders import Folders
+from app.forms.child201_regfile import RegFile
+from app.forms.child202_tagfile import TagFile
+from app.forms.child203_lockfile import LockFile
+from app.forms.child204_oabtable import OabTable
+from app.forms.child301_signfile import SignFile
 
-from utils.helpers import LoadIcon
+from app.utils.helpers import LoadIcon
 
 class MainForm:
     def __init__(self, root):
@@ -24,7 +24,7 @@ class MainForm:
         self.create_mdi_area() 
         self.center_window(800,600)
         
-        logo_icon = LoadIcon("app/gui/icons/logo.png")
+        logo_icon = LoadIcon("app/images/logo.png")
         self.root.iconphoto(False, logo_icon)
 
         mdi_bg_color = self.root.cget("bg")

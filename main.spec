@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['D:\\Repositorios\\jobs\\office\\legaltools\\app\\main.py'],
+    ['main.py'],
     pathex=[],
     binaries=[],
     datas=[],

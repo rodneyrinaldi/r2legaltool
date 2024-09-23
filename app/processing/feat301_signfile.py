@@ -5,12 +5,12 @@ import fitz
 import pymupdf
 from PyPDF2 import PdfReader, PdfWriter
 
-from utils.helpers import CreateNewName, DeleteFile, RenameFile, GetSecretKey
-from utils.net import GetGeolocation,GetLocalIP,GetPublicIP
-from utils.qrcode import CreateQrcode
+from app.utils.helpers import CreateNewName, DeleteFile, RenameFile, GetSecretKey
+from app.utils.net import GetGeolocation,GetLocalIP,GetPublicIP
+from app.utils.qrcode import CreateQrcode
 
-from gui.comps.feat201_regfile import RegisterFile
-from gui.comps.feat203_lockfile import LockerFile
+from app.processing.feat201_regfile import RegisterFile
+from app.processing.feat203_lockfile import LockerFile
 
 
 def SignerFile(uuid_key,input_filename):    

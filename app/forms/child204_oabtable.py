@@ -4,8 +4,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox, filedialog
 
-from utils.helpers import LoadIcon
-from gui.comps.feat203_lockfile import LockerFile
+from app.utils.helpers import LoadIcon
+from app.processing.feat203_lockfile import LockerFile
 
 
 class OabTable:
