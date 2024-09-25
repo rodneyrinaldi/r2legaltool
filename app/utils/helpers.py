@@ -1,22 +1,39 @@
 import os
 import tkinter as tk
-from tkinterdnd2 import TkinterDnD, DND_FILES
-from dotenv import load_dotenv
+import configparser
 
-def LoadIcon(path):
-    # Carrega a imagem usando tkinter
-    icon = tk.PhotoImage(file=path)
-    return icon
+# def LoadIcon(rel_path):
+#     script_dir = os.path.dirname(__file__)
+#     abs_file_path = os.path.join(script_dir, rel_path)
+#     icon = tk.PhotoImage(file=abs_file_path)
+#     return icon
 
 
-def GetSecretKey(key):
-    path_env = os.path.join(os.path.dirname(__file__), '.env')
-    load_dotenv(path_env)
-    secret_key = os.getenv(key)
-    if secret_key:
-        return secret_key
-    else:
-        raise ValueError("A chave secreta não foi encontrada no arquivo .env")
+def LoadIcon(rel_path):
+    script_dir = os.path.dirname(__file__) 
+    abs_file_path = os.path.join(script_dir, rel_path)   
+    try:
+        icon = tk.PhotoImage(file=abs_file_path)
+        return icon
+    except tk.TclError as e:        
+        try:
+            icon = tk.PhotoImage(file=rel_path)
+            return icon
+        except tk.TclError as e:
+            print(f"Erro ao carregar o ícone: {e}")
+            return None
+        print(f"Erro ao carregar o ícone: {e}")
+        return None
+
+
+def GetSecretKey(section, key):
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    try:
+        value = config[section][key]
+        return value
+    except KeyError:
+        return None
 
 
 def CreateNewName(file_name,tag_name):

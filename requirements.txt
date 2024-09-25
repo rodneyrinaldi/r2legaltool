@@ -1,5 +1,0 @@
-tkinter
-pymongo
-sqlite3
-pytest
-pyinstaller

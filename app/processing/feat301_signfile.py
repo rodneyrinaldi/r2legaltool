@@ -15,7 +15,7 @@ from app.processing.feat203_lockfile import LockerFile
 
 def SignerFile(uuid_key,input_filename):    
     upassword = ""
-    opassword = GetSecretKey("SIGN_SECRET_KEY")
+    opassword = GetSecretKey("Signature","SignSecretKey")
     wip_filename = RegisterFile(uuid_key,input_filename)
     time.sleep(1)
     wip_filename = NotifierFile(uuid_key,wip_filename)
