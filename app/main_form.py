@@ -4,6 +4,7 @@ from tkinter import Menu
 from app.forms.child000_empty import Empty
 from app.forms.child101_config import Config 
 from app.forms.child102_folders import Folders
+from app.forms.child103_tables import Tables
 from app.forms.child201_regfile import RegFile
 from app.forms.child202_tagfile import TagFile
 from app.forms.child203_lockfile import LockFile
@@ -48,8 +49,10 @@ class MainForm:
 
         file_menu = Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="Sistema", menu=file_menu)
-        file_menu.add_command(label="Configurador de perfil", command=self.open_child101_config)
-        file_menu.add_command(label="Explorador de pasta de arquivos", command=self.open_child102_folders)
+        file_menu.add_command(label="Configurador de perfil", command=self.open_child101_config,state="normal")
+        file_menu.add_command(label="Explorador de pasta de arquivos", command=self.open_child102_folders,state="normal")
+        file_menu.add_separator()
+        file_menu.add_command(label="Importar tabela de honorários OABSP", command=self.open_child103_oabtable,state="normal")
         file_menu.add_separator()
         file_menu.add_command(label="Sair do sitema", command=self.root.quit)
 
@@ -98,6 +101,14 @@ class MainForm:
         self.center_child_window(new_window, 720,400)
         new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
         Folders(new_window)
+        
+
+    def open_child103_oabtable(self):
+        self.root.attributes("-disabled", True)
+        new_window = tk.Toplevel(self.mdi_area)
+        self.center_child_window(new_window, 720,400)
+        new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
+        Tables(new_window)
 
 
     def open_child201_regfile(self):
@@ -129,7 +140,7 @@ class MainForm:
         new_window = tk.Toplevel(self.mdi_area)
         self.center_child_window(new_window, 720,400)
         new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
-        LockFile(new_window)
+        OabTable(new_window)
 
 
     def open_child301_signfile(self):

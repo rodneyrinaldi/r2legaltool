@@ -5,13 +5,20 @@ from tkinter import filedialog
 import pymupdf
 from PyPDF2 import PdfReader, PdfWriter
 
-from app.utils.helpers import CreateNewName
+from app.utils.helpers import CreateNewName,DeleteFile
+from app.processing.feat201_regfile import RegisterFile
 
 
-def LabelerFile(title,description,input_filename,gray=True):
+def LabelerFile(key,title,description,input_filename,gray=True):
     current_directory = os.path.dirname(os.path.abspath(__file__))
 
-    output_filename = CreateNewName(input_filename,"(etiq)")
+    if key:
+        input_filename = RegisterFile(key,input_filename)
+        time.sleep(2)
+        output_filename = CreateNewName(input_filename,"(etiq)")
+    else:
+        output_filename = CreateNewName(input_filename,"(etiq)")
+
     if gray:
         label_filename =  pymupdf.open(current_directory + "\\label1.pdf")  
     else:
@@ -46,5 +53,9 @@ def LabelerFile(title,description,input_filename,gray=True):
     output_file.close()
     pdf_combined.save(output_filename)
     pdf_combined.close()
+    if key:
+        DeleteFile(input_filename)
 
     return(output_filename)
+
+

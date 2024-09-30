@@ -1,10 +1,12 @@
+import os
+import time
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
 import uuid
 
-from app.utils.helpers import LoadIcon
+from app.utils.helpers import LoadIcon, CreateControl, JsonTuple
 from app.processing.feat201_regfile import RegisterFile
 
 
@@ -34,8 +36,10 @@ class RegFile:
         self.text_key.grid(row=4, column=0, sticky="ew", padx=5, pady=5)        
         self.button_key = ttk.Button(self.frame, width=3, text="+", command=self.set_uuid)
         self.button_key.grid(row=4, column=1, padx=5, pady=5)   
+        self.button_key = ttk.Button(self.frame, width=3, text="-", command=self.set_uuid)
+        self.button_key.grid(row=4, column=2, padx=5, pady=5) 
         self.button_key = ttk.Button(self.frame, width=3, text="=", command=self.set_uuid)
-        self.button_key.grid(row=4, column=2, padx=5, pady=5)
+        self.button_key.grid(row=4, column=3, padx=5, pady=5)
           
         self.confirm_button = tk.Button(self.root, width=20, text="Processar", command=self.process_file)
         self.confirm_button.pack(pady=5)
@@ -47,6 +51,8 @@ class RegFile:
             new_uuid = str(uuid.uuid4())
             self.text_key.delete(0, tk.END)
             self.text_key.insert(0, new_uuid)
+            file_path = self.text_file.get()
+            CreateControl(file_path,new_uuid)
         else:
             print("Operação cancelada.")
 

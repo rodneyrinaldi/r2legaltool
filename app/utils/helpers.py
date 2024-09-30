@@ -1,12 +1,23 @@
 import os
+import time
+from datetime import datetime
+import json
 import tkinter as tk
 import configparser
 
-# def LoadIcon(rel_path):
-#     script_dir = os.path.dirname(__file__)
-#     abs_file_path = os.path.join(script_dir, rel_path)
-#     icon = tk.PhotoImage(file=abs_file_path)
-#     return icon
+matriz = []
+now = datetime.now()
+date_sys = now.strftime("%Y/%m/%d %H:%M:%S")
+
+
+def JsonTuple(chave, valor):
+    global matriz
+    if chave == "" and valor == "":
+        resultado_json = json.dumps(matriz)
+        matriz = []
+        return resultado_json
+    else:
+        matriz.append((chave, valor))
 
 
 def LoadIcon(rel_path):
@@ -72,6 +83,31 @@ def RenameFile(path_file_name, new_file_name, message=True):
     except Exception as e:
         if message:
             print(f"Ocorreu um erro ao tentar renomear o arquivo: {e}")
+
+
+def CreateControl(file_path,new_control):
+    try:
+        if not file_path or not new_control:
+            return None
+        else:
+            folder = os.path.dirname(file_path)
+            new_path = os.path.join(folder, new_control)
+            with open(new_path + ".json", 'w') as new_file:
+                JsonTuple("Caminho",new_path)
+                JsonTuple("Chave",new_control)
+                JsonTuple("Data",date_sys)
+                message = JsonTuple("","")
+                new_file.write(message)
+                print(f"Arquivo criado {new_control}!")
+            new_file.close()
+        return None
+    except:
+        return None
+
+
+
+
+
 
 
 

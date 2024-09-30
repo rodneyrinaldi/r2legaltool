@@ -74,6 +74,7 @@ class TagFile:
 
       
     def process_file(self):
+        key = self.text_key.get()
         title = self.text_title.get()
         description = self.text_description.get()
         file = self.text_file.get()
@@ -81,6 +82,6 @@ class TagFile:
         if not title.strip() or not description.strip() or not file.strip():
             messagebox.showwarning( "Aviso", "Título, descrição ou documento não informado!")
         else:
-            LabelerFile(title,description,file)
+            LabelerFile(key,title,description,file)
             messagebox.showinfo("Aviso","Documento processado!")
 
