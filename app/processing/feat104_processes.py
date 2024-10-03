@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import os
 
-def ReadOabTable(file_path, update_progress, check_processing, update_status, processing_complete):
+def ReadTjspProcesses(file_path, update_progress, check_processing, update_status, processing_complete):
     # Verificação se o arquivo existe
     if not os.path.exists(file_path):
         print("Arquivo não encontrado")

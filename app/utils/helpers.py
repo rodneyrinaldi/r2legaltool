@@ -21,6 +21,25 @@ def JsonTuple(chave, valor):
 
 
 def LoadIcon(rel_path):
+    image_path = os.path.join(os.path.dirname(__file__), '../images/sua_imagem.png')
+    
+    script_dir = os.path.dirname(__file__) 
+    abs_file_path = os.path.join(script_dir, rel_path)   
+    try:
+        icon = tk.PhotoImage(file=abs_file_path)
+        return icon
+    except tk.TclError as e:        
+        try:
+            icon = tk.PhotoImage(file=rel_path)
+            return icon
+        except tk.TclError as e:
+            print(f"Erro ao carregar o ícone: {e}")
+            return None
+        print(f"Erro ao carregar o ícone: {e}")
+        return None
+
+
+def XXXLoadIcon(rel_path):    
     script_dir = os.path.dirname(__file__) 
     abs_file_path = os.path.join(script_dir, rel_path)   
     try:

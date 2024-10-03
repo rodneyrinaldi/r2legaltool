@@ -44,8 +44,8 @@ class Folders:
         self.tree.configure(yscroll=self.scrollbar.set)
 
         self.tree.heading("#0", text="Explorador de Arquivos", anchor="w")
-        initial_folder = self.last_folder if self.last_folder else os.path.expanduser("~")
-        self.populate_tree(initial_folder)
+        # initial_folder = self.last_folder if self.last_folder else os.path.expanduser("~")
+        # self.populate_tree(initial_folder)
         self.tree.bind("<Double-1>", self.on_double_click)
 
 
@@ -78,8 +78,8 @@ class Folders:
     def refresh_tree(self):
         for item in self.tree.get_children():
             self.tree.delete(item)
-        initial_folder = self.last_folder if self.last_folder else os.path.expanduser("~")
-        self.populate_tree(initial_folder)
+        # initial_folder = self.last_folder if self.last_folder else os.path.expanduser("~")
+        # self.populate_tree(initial_folder)
 
     def on_double_click(self, event):
         item = self.tree.selection()[0]

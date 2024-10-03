@@ -40,9 +40,19 @@ class RegFile:
         self.button_key.grid(row=4, column=2, padx=5, pady=5) 
         self.button_key = ttk.Button(self.frame, width=3, text="=", command=self.set_uuid)
         self.button_key.grid(row=4, column=3, padx=5, pady=5)
+        self.checkbox_var = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame, text="Numerar páginas", variable=self.checkbox_var, command=self.toggle_input)
+        self.checkbox.grid(row=5, column=0, padx=5)
           
         self.confirm_button = tk.Button(self.root, width=20, text="Processar", command=self.process_file)
         self.confirm_button.pack(pady=5)
+
+
+    def toggle_input(self):
+        if self.checkbox_var.get():
+            return
+        else:
+            return
 
 
     def set_uuid(self):
@@ -69,9 +79,10 @@ class RegFile:
     def process_file(self):
         key = self.text_key.get()
         file = self.text_file.get()
+        numerator = self.checkbox_var.get()
         
         if not key.strip() or not file.strip(): 
             messagebox.showwarning( "Aviso", "Chave ou documento não informado!")
         else:
-            RegisterFile(key,file)
+            RegisterFile(key,file,numerator)
             messagebox.showinfo("Aviso","Documento processado!")
