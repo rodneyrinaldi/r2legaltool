@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 import tkinter as tk
 import configparser
+from PIL import Image, ImageTk
 
 matriz = []
 now = datetime.now()
@@ -20,40 +21,19 @@ def JsonTuple(chave, valor):
         matriz.append((chave, valor))
 
 
-def LoadIcon(rel_path):
-    image_path = os.path.join(os.path.dirname(__file__), '../images/sua_imagem.png')
-    
-    script_dir = os.path.dirname(__file__) 
-    abs_file_path = os.path.join(script_dir, rel_path)   
+def LoadIcon(relative_path):
     try:
-        icon = tk.PhotoImage(file=abs_file_path)
-        return icon
-    except tk.TclError as e:        
-        try:
-            icon = tk.PhotoImage(file=rel_path)
-            return icon
-        except tk.TclError as e:
-            print(f"Erro ao carregar o ícone: {e}")
-            return None
-        print(f"Erro ao carregar o ícone: {e}")
-        return None
-
-
-def XXXLoadIcon(rel_path):    
-    script_dir = os.path.dirname(__file__) 
-    abs_file_path = os.path.join(script_dir, rel_path)   
-    try:
-        icon = tk.PhotoImage(file=abs_file_path)
-        return icon
-    except tk.TclError as e:        
-        try:
-            icon = tk.PhotoImage(file=rel_path)
-            return icon
-        except tk.TclError as e:
-            print(f"Erro ao carregar o ícone: {e}")
-            return None
-        print(f"Erro ao carregar o ícone: {e}")
-        return None
+        absolute_path = os.path.join(os.path.dirname(__file__), relative_path)
+        if not os.path.exists(absolute_path):
+            raise FileNotFoundError(f"File not found: {absolute_path}")
+        img = Image.open(absolute_path)
+        return ImageTk.PhotoImage(img)
+    except FileNotFoundError as fnf_error:
+        print(fnf_error)
+        raise
+    except IOError as io_error:
+        print(f"Error opening the image: {io_error}")
+        raise
 
 
 def GetSecretKey(section, key):

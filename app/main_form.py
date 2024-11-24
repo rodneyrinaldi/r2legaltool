@@ -26,7 +26,7 @@ class MainForm:
         self.create_mdi_area() 
         self.center_window(800,600)
         
-        logo_icon = LoadIcon("app/images/logo.png")
+        logo_icon = LoadIcon("../images/logo.png")
         self.root.iconphoto(False, logo_icon)
 
         mdi_bg_color = self.root.cget("bg")

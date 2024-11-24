@@ -9,7 +9,7 @@ class Tables:
     def __init__(self, root):        
         self.root = root
         self.root.title("Importador de honorários advocatícios")
-        logo_icon = LoadIcon("app/images/logo.png")
+        logo_icon = LoadIcon("../images/logo.png")
         self.root.iconphoto(False, logo_icon)
 
                 

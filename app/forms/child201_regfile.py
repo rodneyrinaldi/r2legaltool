@@ -14,7 +14,7 @@ class RegFile:
     def __init__(self, root):
         self.root = root
         self.root.title("Registro de documentos")
-        logo_icon = LoadIcon("app/images/logo.png")
+        logo_icon = LoadIcon("../images/logo.png")
         self.root.iconphoto(False, logo_icon)
         
         self.root.columnconfigure(0, weight=1)
@@ -32,17 +32,26 @@ class RegFile:
         
         self.label = ttk.Label(self.frame, text="Chave de registro:")
         self.label.grid(row=3, column=0, padx=10, pady=10)        
+        
         self.text_key = ttk.Entry(self.frame,width=50)
         self.text_key.grid(row=4, column=0, sticky="ew", padx=5, pady=5)        
+        
         self.button_key = ttk.Button(self.frame, width=3, text="+", command=self.set_uuid)
-        self.button_key.grid(row=4, column=1, padx=5, pady=5)   
+        self.button_key.grid(row=4, column=1, padx=5, pady=5) 
+
         self.button_key = ttk.Button(self.frame, width=3, text="-", command=self.set_uuid)
         self.button_key.grid(row=4, column=2, padx=5, pady=5) 
+
         self.button_key = ttk.Button(self.frame, width=3, text="=", command=self.set_uuid)
         self.button_key.grid(row=4, column=3, padx=5, pady=5)
+        
         self.checkbox_var = tk.BooleanVar()
         self.checkbox = tk.Checkbutton(self.frame, text="Numerar páginas", variable=self.checkbox_var, command=self.toggle_input)
         self.checkbox.grid(row=5, column=0, padx=5)
+        
+        self.checkbox_file = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame, text="Gerar arquivo", variable=self.checkbox_file, command=self.toggle_input)
+        self.checkbox.grid(row=6, column=0, padx=5)
           
         self.confirm_button = tk.Button(self.root, width=20, text="Processar", command=self.process_file)
         self.confirm_button.pack(pady=5)

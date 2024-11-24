@@ -11,7 +11,7 @@ class Config:
     def __init__(self, root):
         self.root = root
         self.root.title("Registro de documentos")
-        logo_icon = LoadIcon("app/images/logo.png")
+        logo_icon = LoadIcon("../images/logo.png")
         self.root.iconphoto(False, logo_icon)
         
         self.root.columnconfigure(0, weight=1)
