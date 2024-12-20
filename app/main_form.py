@@ -1,3 +1,6 @@
+import os
+import subprocess
+import json
 import tkinter as tk
 from tkinter import Menu
 
@@ -42,8 +45,12 @@ class MainForm:
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2 - 30
         self.root.geometry(f"{width}x{height}+{x}+{y}")
-       
 
+
+    def create_command(self, exe):   
+        return lambda: subprocess.run([exe, ""]) 
+
+    
     def create_menu(self):
         menu_bar = Menu(self.root)
         self.root.config(menu=menu_bar)
@@ -73,9 +80,16 @@ class MainForm:
 
         functions_menu = Menu(menu_bar, tearoff=0)
         menu_bar.add_cascade(label="Recursos Avançados", menu=functions_menu)
-        functions_menu.add_command(label="Assinador digital de documento", command=self.open_child301_signfile)
-        functions_menu.add_separator()
-        functions_menu.add_command(label="Gestor de processos TJSP", command=self.open_child000_empty,state="disabled")
+        config_file = "config.json"
+        if os.path.isfile(config_file):
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+                addons_menu = tk.Menu(functions_menu, tearoff=0)
+                for entry in config:
+                    exe_file = entry["exe"]
+                    titulo = entry["titulo"]      
+                    functions_menu.add_command(label=titulo, command=self.create_command(exe_file))
+
 
     def create_mdi_area(self):
         self.mdi_area = tk.Frame(self.root, bg="white")
@@ -125,7 +139,7 @@ class MainForm:
     def open_child201_regfile(self):
         self.root.attributes("-disabled", True)
         new_window = tk.Toplevel(self.mdi_area)
-        self.center_child_window(new_window, 720,400)
+        self.center_child_window(new_window, 720,380)
         new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
         RegFile(new_window)
 
@@ -133,7 +147,7 @@ class MainForm:
     def open_child202_tagfile(self):
         self.root.attributes("-disabled", True)
         new_window = tk.Toplevel(self.mdi_area)
-        self.center_child_window(new_window, 720,400)
+        self.center_child_window(new_window, 720,520)
         new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
         TagFile(new_window)
 
@@ -141,7 +155,7 @@ class MainForm:
     def open_child203_lockfile(self):
         self.root.attributes("-disabled", True)
         new_window = tk.Toplevel(self.mdi_area)
-        self.center_child_window(new_window, 720,400)
+        self.center_child_window(new_window, 720,360)
         new_window.protocol("WM_DELETE_WINDOW", lambda: self.on_child_close(new_window))
         LockFile(new_window)
 

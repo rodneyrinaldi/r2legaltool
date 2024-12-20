@@ -8,6 +8,7 @@ import uuid
 
 from app.utils.helpers import LoadIcon, CreateControl, JsonTuple
 from app.processing.feat201_regfile import RegisterFile
+from app.utils.pdf import DecreasePdf, ConvertA4Pdf, CompressPdf, LockerPdf
 
 
 class RegFile:
@@ -44,14 +45,33 @@ class RegFile:
 
         self.button_key = ttk.Button(self.frame, width=3, text="=", command=self.set_uuid)
         self.button_key.grid(row=4, column=3, padx=5, pady=5)
+
+        self.frame2 = ttk.Frame(self.root, padding=10)
+        self.frame2.pack(padx=20, pady=5)
         
         self.checkbox_var = tk.BooleanVar()
-        self.checkbox = tk.Checkbutton(self.frame, text="Numerar páginas", variable=self.checkbox_var, command=self.toggle_input)
-        self.checkbox.grid(row=5, column=0, padx=5)
+        self.checkbox = tk.Checkbutton(self.frame2, text="Numerar páginas", variable=self.checkbox_var, command=self.toggle_input)
+        self.checkbox.grid(row=2, column=0, padx=5)
         
         self.checkbox_file = tk.BooleanVar()
-        self.checkbox = tk.Checkbutton(self.frame, text="Gerar arquivo", variable=self.checkbox_file, command=self.toggle_input)
-        self.checkbox.grid(row=6, column=0, padx=5)
+        self.checkbox = tk.Checkbutton(self.frame2, text="Gerar arquivo uui", variable=self.checkbox_file, command=self.toggle_input)
+        self.checkbox.grid(row=2, column=1, padx=5)
+        
+        self.checkbox_decrease = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Reduzir arquivo", variable=self.checkbox_decrease, command=self.toggle_input)
+        self.checkbox.grid(row=2, column=2, padx=5)
+        
+        self.checkbox_a4format = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Formatar A4 arquivo", variable=self.checkbox_a4format, command=self.toggle_input)
+        self.checkbox.grid(row=3, column=0, padx=5)
+        
+        self.checkbox_prot = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Proteger arquivo", variable=self.checkbox_prot, command=self.toggle_input)
+        self.checkbox.grid(row=3, column=1, padx=5)
+        
+        self.checkbox_zip = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Compactar arquivo", variable=self.checkbox_zip, command=self.toggle_input)
+        self.checkbox.grid(row=3, column=2, padx=5)
           
         self.confirm_button = tk.Button(self.root, width=20, text="Processar", command=self.process_file)
         self.confirm_button.pack(pady=5)
@@ -77,21 +97,24 @@ class RegFile:
 
 
     def select_file(self):
-        file_name = filedialog.askopenfilename(title="Selecione um documento")
+        file_name = filedialog.askopenfilename(title="Selecione um documento", filetypes=[("PDF files", "*.pdf")])
         if file_name:
             self.text_file.delete(0, tk.END)
             self.text_file.insert(0, file_name)
         else:
             messagebox.showwarning("Aviso", "Nenhum documento foi selecionado!")
 
-      
+    
     def process_file(self):
         key = self.text_key.get()
         file = self.text_file.get()
         numerator = self.checkbox_var.get()
-        
+        decrease = self.checkbox_decrease.get()
+        a4format = self.checkbox_a4format.get()
+        protect = self.checkbox_prot.get()
+        zip = self.checkbox_zip.get()
         if not key.strip() or not file.strip(): 
             messagebox.showwarning( "Aviso", "Chave ou documento não informado!")
         else:
-            RegisterFile(key,file,numerator)
+            RegisterFile(key,file,numerator,decrease,a4format,protect,zip)
             messagebox.showinfo("Aviso","Documento processado!")

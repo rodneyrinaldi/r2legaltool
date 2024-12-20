@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['r2legaltool.py'],
     pathex=[],
     binaries=[],
     datas=[('app/images/logo.png', 'app/images'), ('app/processing/label1.pdf', 'app/processing'), ('app/processing/label2.pdf', 'app/processing')],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main',
+    name='r2legaltool',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

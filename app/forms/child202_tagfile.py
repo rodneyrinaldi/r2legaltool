@@ -48,14 +48,48 @@ class TagFile:
         self.text_key.grid(row=8, column=0, sticky="ew", padx=5, pady=5)        
         self.button_key = ttk.Button(self.frame, width=3, text="=", command=self.set_uuid)
         self.button_key.grid(row=8, column=1, padx=5, pady=5)   
+
+        self.frame2 = ttk.Frame(self.root, padding=10)
+        self.frame2.pack(padx=20, pady=5)
+        
+        self.checkbox_var = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Numerar páginas", variable=self.checkbox_var, command=self.toggle_input)
+        self.checkbox.grid(row=2, column=0, padx=5)
+        
+        self.checkbox_gray = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Cinza", variable=self.checkbox_gray, command=self.toggle_input)
+        self.checkbox.grid(row=2, column=1, padx=5)
+        
+        self.checkbox_decrease = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Reduzir arquivo", variable=self.checkbox_decrease, command=self.toggle_input)
+        self.checkbox.grid(row=2, column=2, padx=5)
+        
+        self.checkbox_a4format = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Formatar A4 arquivo", variable=self.checkbox_a4format, command=self.toggle_input)
+        self.checkbox.grid(row=3, column=0, padx=5)
+        
+        self.checkbox_prot = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Proteger arquivo", variable=self.checkbox_prot, command=self.toggle_input)
+        self.checkbox.grid(row=3, column=1, padx=5)
+        
+        self.checkbox_zip = tk.BooleanVar()
+        self.checkbox = tk.Checkbutton(self.frame2, text="Compactar arquivo", variable=self.checkbox_zip, command=self.toggle_input)
+        self.checkbox.grid(row=3, column=2, padx=5)
           
         self.confirm_button = tk.Button(self.root, width=20, text="Processar", command=self.process_file)
         self.confirm_button.pack(pady=5)
 
 
+    def toggle_input(self):
+        if self.checkbox_var.get():
+            return
+        else:
+            return
+
+
 
     def select_file(self):
-        file_name = filedialog.askopenfilename(title="Selecione um documento")
+        file_name = filedialog.askopenfilename(title="Selecione um documento", filetypes=[("PDF files", "*.pdf")])
         if file_name:
             self.text_file.delete(0, tk.END)
             self.text_file.insert(0, file_name)
@@ -77,11 +111,18 @@ class TagFile:
         key = self.text_key.get()
         title = self.text_title.get()
         description = self.text_description.get()
-        file = self.text_file.get()
+        file = self.text_file.get()        
+        numerator = self.checkbox_var.get() 
+        gray = self.checkbox_gray.get()
+        decrease = self.checkbox_decrease.get()
+        a4format = self.checkbox_a4format.get()
+        protect = self.checkbox_prot.get()
+        zip = self.checkbox_zip.get()
         
         if not title.strip() or not description.strip() or not file.strip():
             messagebox.showwarning( "Aviso", "Título, descrição ou documento não informado!")
         else:
-            LabelerFile(key,title,description,file)
+            LabelerFile(key,title,description,file,gray,numerator,decrease,a4format,protect,zip)
             messagebox.showinfo("Aviso","Documento processado!")
+
 

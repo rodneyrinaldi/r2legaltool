@@ -6,7 +6,7 @@ import pymupdf
 from app.utils.helpers import CreateNewName
 
 
-def RegisterFile(secure_key, input_filename, print_page_numbers=False):
+def RegisterFile(secure_key, input_filename, print_page_numbers=False,decrease=False,a4format=False,protect=False,zip=False):
     output_filename = CreateNewName(input_filename, "(reg)")
     input_file = pymupdf.open(input_filename)
     total_pages = len(input_file)  # Get the total number of pages

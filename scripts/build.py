@@ -6,7 +6,7 @@ import subprocess
 # command = f"pyinstaller --onefile --windowed {os.path.join(project_dir, 'app', 'main.py')}"
 
 # Comando para criar o executável com PyInstaller
-command = f"pyinstaller --onefile --windowed --add-data {'app/images/logo.png;app/images'} --add-data {'app/processing/label1.pdf;app/processing'} --add-data {'app/processing/label2.pdf;app/processing'} {'main.py'}"
+command = f"pyinstaller --onefile --windowed --add-data {'app/images/logo.png;app/images'} --add-data {'app/processing/label1.pdf;app/processing'} --add-data {'app/processing/label2.pdf;app/processing'} {'r2legaltool.py'}"
 
 # Executa o comando
 subprocess.run(command, shell=True)

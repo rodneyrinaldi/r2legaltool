@@ -1,61 +1,101 @@
 import os
-import time
+import traceback
 import tkinter as Tk
 from tkinter import filedialog
-import pymupdf
-from PyPDF2 import PdfReader, PdfWriter
 
-from app.utils.helpers import CreateNewName,DeleteFile
-from app.processing.feat201_regfile import RegisterFile
+from app.utils.helpers import CreateNewName, ControlFile, DeleteFile
+from app.utils.pdf import DecreasePdf, ConvertA4Pdf, CompressPdf, LockerPdf, LabelerPdf, RegisterPdf
 
+def LabelerFile(key, title, description, input_filename, gray, numerator=False, decrease=False, a4format=False, protect=False, zip=False):
+    output_filename = CreateNewName(input_filename, "(r2)")
+    output_control_filename = output_filename.replace(".pdf", ".txt")
 
-def LabelerFile(key,title,description,input_filename,gray=True):
-    current_directory = os.path.dirname(os.path.abspath(__file__))
+    temp_files = []
 
-    if key:
-        input_filename = RegisterFile(key,input_filename)
-        time.sleep(2)
-        output_filename = CreateNewName(input_filename,"(etiq)")
-    else:
-        output_filename = CreateNewName(input_filename,"(etiq)")
+    try:
+        with open(output_control_filename, 'w', encoding='utf-8') as log_file:
+            log_file.write("Início do processamento.\n")
+            log_file.write(f"Arquivo de entrada: {input_filename}\n")
 
-    if gray:
-        label_filename =  pymupdf.open(current_directory + "\\label1.pdf")  
-    else:
-        label_filename =  pymupdf.open(current_directory + "\\label2.pdf")  
+            # Deletar arquivos de controle e saída anteriores
+            DeleteFile(output_control_filename)
+            log_file.write(f"Arquivo de controle {output_control_filename} deletado.\n")
+            DeleteFile(output_filename)
+            log_file.write(f"Arquivo de saída {output_filename} deletado.\n")
 
-    output_file = pymupdf.open(label_filename)
-    for pagina in output_file:
-        margem_esquerda = 10  
-        largura_pagina = pagina.rect.width 
-        altura_pagina = pagina.rect.height
-        pos_x = (largura_pagina - 0) / 2
-        pos_y = altura_pagina / 2
-        font = pymupdf.Font("helv")
-        largura_texto = font.text_length(title,14)
-        pagina.insert_text((pos_x-(largura_texto/2), pos_y-5), title, fontname="helv", fontsize=14, color=(0, 0, 0))
-        largura_texto = font.text_length(description,12)
-        pagina.insert_text((pos_x-(largura_texto/2), pos_y+15), description, fontname="helv", fontsize=12, color=(0, 0, 0))
-    output_file.save(output_filename)
-    output_file.close()
+            if a4format:
+                ControlFile("arquivo repaginado", output_control_filename)
+                log_file.write("Repaginando para formato A4.\n")
+                temp_a4_filename = CreateNewName(input_filename, "(a4)")
+                ConvertA4Pdf(input_filename, temp_a4_filename)
+                input_filename = temp_a4_filename
+                temp_files.append(temp_a4_filename)
 
-    input_file = pymupdf.open(input_filename) 
-    output_file = pymupdf.open(output_filename)  
-    pdf_combined = pymupdf.open()
+            ControlFile("arquivo registrado", output_control_filename)
+            log_file.write("Registrando o arquivo.\n")
+            temp_registered_filename = CreateNewName(input_filename, "(registered)")
+            RegisterPdf(key, input_filename, temp_registered_filename, numerator)
+            input_filename = temp_registered_filename
+            temp_files.append(temp_registered_filename)
 
-    for page_num in range(len(output_file)):
-        pdf_combined.insert_pdf(output_file, from_page=page_num, to_page=page_num)
+            ControlFile("arquivo etiquetado", output_control_filename)
+            log_file.write("Etiquetando o arquivo.\n")
+            temp_labeled_filename = CreateNewName(input_filename, "(labeled)")
+            LabelerPdf(title, description, input_filename, temp_labeled_filename, gray)
+            input_filename = temp_labeled_filename
+            temp_files.append(temp_labeled_filename)
 
-    for page_num in range(len(input_file)):
-        pdf_combined.insert_pdf(input_file, from_page=page_num, to_page=page_num)
+            if decrease:
+                ControlFile("arquivo reduzido", output_control_filename)
+                log_file.write("Reduzindo o tamanho do arquivo.\n")
+                temp_decreased_filename = CreateNewName(input_filename, "(decreased)")
+                DecreasePdf(input_filename, temp_decreased_filename)
+                input_filename = temp_decreased_filename
+                temp_files.append(temp_decreased_filename)
 
-    input_file.close()
-    output_file.close()
-    pdf_combined.save(output_filename)
-    pdf_combined.close()
-    if key:
-        DeleteFile(input_filename)
+            if protect:
+                ControlFile("arquivo protegido", output_control_filename)
+                log_file.write("Protegendo o arquivo.\n")
+                temp_protected_filename = CreateNewName(input_filename, "(protected)")
+                LockerPdf(input_filename, temp_protected_filename, "Girafa-Nao-Tem-Asa")
+                input_filename = temp_protected_filename
+                temp_files.append(temp_protected_filename)
 
-    return(output_filename)
+            # Renomear o arquivo final antes da compactação
+            final_output_filename = output_filename
+            os.rename(input_filename, final_output_filename)
+            log_file.write(f"Arquivo final gerado: {final_output_filename}\n")
 
+            if zip:
+                ControlFile("arquivo compactado", output_control_filename)
+                log_file.write("Compactando o arquivo.\n")
+                final_zip_filename = output_filename.replace(".pdf", ".zip")
+                CompressPdf(final_output_filename, final_zip_filename)
+                log_file.write(f"Arquivo zip gerado: {final_zip_filename}\n")
 
+    except Exception as e:
+        with open(output_control_filename, 'a', encoding='utf-8') as log_file:
+            log_file.write(f"Erro ao processar o arquivo: {e}\n")
+            log_file.write(traceback.format_exc())
+
+    finally:
+        # Deletar todos os arquivos temporários
+        for temp_file in temp_files:
+            if os.path.exists(temp_file):
+                DeleteFile(temp_file)
+
+        with open(output_control_filename, 'a', encoding='utf-8') as log_file:
+            log_file.write("Arquivos temporários deletados.\n")
+            log_file.write("Processamento concluído.\n")
+
+    return
+
+# Exemplo de uso
+if __name__ == "__main__":
+    key = "123456"
+    title = "Exemplo de Título"
+    description = "Esta é a descrição do PDF."
+    input_filename = "seu_arquivo.pdf"
+    gray = True
+    LabelerFile(key, title, description, input_filename, gray, numerator=True, decrease=True, a4format=True, protect=True, zip=True)
+    print("Processamento concluído.")

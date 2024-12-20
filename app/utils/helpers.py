@@ -1,3 +1,4 @@
+import sys
 import os
 import time
 from datetime import datetime
@@ -10,6 +11,15 @@ matriz = []
 now = datetime.now()
 date_sys = now.strftime("%Y/%m/%d %H:%M:%S")
 
+
+def GetAppRoot():
+    if hasattr(sys, '_MEIPASS'):
+        # PyInstaller cria uma pasta temporária e armazena o path em _MEIPASS
+        return sys._MEIPASS
+    else:
+        # Quando rodando de forma interativa
+        return os.path.dirname(os.path.abspath(__file__))
+    
 
 def JsonTuple(chave, valor):
     global matriz
@@ -103,6 +113,18 @@ def CreateControl(file_path,new_control):
     except:
         return None
 
+
+def ControlFile(flag, file_name):
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    # Verifica se o arquivo existe na pasta root do programa
+    if not os.path.isfile(file_name):
+        # Cria o arquivo e escreve a flag
+        with open(file_name, 'w') as file:
+            file.write(flag + '\n')
+    else:
+        # Abre o arquivo existente e adiciona a flag ao final
+        with open(file_name, 'a') as file:
+            file.write(flag + '\n')
 
 
 
