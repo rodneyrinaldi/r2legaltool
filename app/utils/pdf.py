@@ -4,7 +4,7 @@ import pymupdf
 import fitz  # PyMuPDF
 
 from PyPDF2 import PdfReader, PdfWriter
-from app.utils.helpers import CreateNewName, GetAppRoot
+from app.utils.helpers import CreateNewName, GetAppRoot, GetResourcesRoot
 
 
 def DecreasePdf(input_filename, output_filename):
@@ -124,13 +124,12 @@ def RegisterPdf(secure_key, input_filename, output_filename, print_page_numbers=
 
 
 def LabelerPdf(title, description, input_filename, output_filename, gray):
-    current_directory = GetAppRoot()
-    print(current_directory)
     if gray:
-        label_filename =  pymupdf.open(current_directory + "\\label1.pdf")  
+        current_directory = GetResourcesRoot() + "label1.pdf"
     else:
-        label_filename =  pymupdf.open(current_directory + "\\label2.pdf")  
-    output_file = pymupdf.open(label_filename)
+        current_directory = GetResourcesRoot() + "label2.pdf"
+    label_file =  pymupdf.open(current_directory)  
+    output_file = pymupdf.open(label_file)
     for pagina in output_file:
         largura_pagina = pagina.rect.width 
         altura_pagina = pagina.rect.height

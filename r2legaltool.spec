@@ -5,7 +5,7 @@ a = Analysis(
     ['r2legaltool.py'],
     pathex=[],
     binaries=[],
-    datas=[('app/images/logo.png', 'app/images'), ('app/processing/label1.pdf', 'app/processing'), ('app/processing/label2.pdf', 'app/processing')],
+    datas=[('app/images/logo.png', 'app/images'), ('app/resources/label1.pdf', 'app/resources'), ('app/resources/label2.pdf', 'app/resources')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

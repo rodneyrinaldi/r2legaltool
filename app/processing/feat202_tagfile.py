@@ -38,12 +38,13 @@ def LabelerFile(key, title, description, input_filename, gray, numerator=False, 
             input_filename = temp_registered_filename
             temp_files.append(temp_registered_filename)
 
-            ControlFile("arquivo etiquetado", output_control_filename)
-            log_file.write("Etiquetando o arquivo.\n")
-            temp_labeled_filename = CreateNewName(input_filename, "(labeled)")
-            LabelerPdf(title, description, input_filename, temp_labeled_filename, gray)
-            input_filename = temp_labeled_filename
-            temp_files.append(temp_labeled_filename)
+            if title != None:
+                ControlFile("arquivo etiquetado", output_control_filename)
+                log_file.write("Etiquetando o arquivo.\n")
+                temp_labeled_filename = CreateNewName(input_filename, "(labeled)")
+                LabelerPdf(title, description, input_filename, temp_labeled_filename, gray)
+                input_filename = temp_labeled_filename
+                temp_files.append(temp_labeled_filename)
 
             if decrease:
                 ControlFile("arquivo reduzido", output_control_filename)
@@ -89,13 +90,3 @@ def LabelerFile(key, title, description, input_filename, gray, numerator=False, 
             log_file.write("Processamento concluído.\n")
 
     return
-
-# Exemplo de uso
-if __name__ == "__main__":
-    key = "123456"
-    title = "Exemplo de Título"
-    description = "Esta é a descrição do PDF."
-    input_filename = "seu_arquivo.pdf"
-    gray = True
-    LabelerFile(key, title, description, input_filename, gray, numerator=True, decrease=True, a4format=True, protect=True, zip=True)
-    print("Processamento concluído.")

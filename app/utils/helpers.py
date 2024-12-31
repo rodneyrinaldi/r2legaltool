@@ -21,6 +21,12 @@ def GetAppRoot():
         return os.path.dirname(os.path.abspath(__file__))
     
 
+def GetResourcesRoot():  
+    return os.path.dirname(os.path.abspath(__file__)) + "\\..\\resources\\"
+    
+     
+
+
 def JsonTuple(chave, valor):
     global matriz
     if chave == "" and valor == "":
@@ -107,7 +113,7 @@ def CreateControl(file_path,new_control):
                 JsonTuple("Data",date_sys)
                 message = JsonTuple("","")
                 new_file.write(message)
-                print(f"Arquivo criado {new_control}!")
+                print(f"Arquivo criado {folder, new_control}!")
             new_file.close()
         return None
     except:
