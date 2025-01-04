@@ -11,7 +11,6 @@ def LabelerFile(key, title, description, input_filename, gray, numerator=False, 
     output_control_filename = output_filename.replace(".pdf", ".txt")
 
     temp_files = []
-
     try:
         with open(output_control_filename, 'w', encoding='utf-8') as log_file:
             log_file.write("Início do processamento.\n")
